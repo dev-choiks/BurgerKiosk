@@ -6,13 +6,13 @@ namespace BurgerKiosk
         {
             InitializeComponent();
 
-            // 화면이 처음 그려질 때 라디오 버튼이 선택되지 않도록 설정
-            // 로드 시점에 강제로 해제하기 위해 이벤트를 연결하거나 아래 설정을 유지합니다.
             this.Load += Form1_Load;
 
             lblError.Text = "메뉴를 선택하세요.";
             lblError.ForeColor = Color.Red;
             lblError.Visible = false;
+
+            // 기존의 this.AcceptButton = btnOrder; 코드는 Enter키로 버튼이 눌리는 것을 방지하기 위해 삭제했습니다.
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -22,14 +22,50 @@ namespace BurgerKiosk
             rbnHam2.Checked = false;
             rbnHam3.Checked = false;
 
-            // 추가 팁: 포커스가 라디오 버튼에 가서 자동으로 체크되는 것을 방지하기 위해 
-            // 다른 컨트롤(예: 버튼이나 라벨)에 포커스를 줍니다.
+            // ---------------------------------------------------
+            // [과제3] 키보드 Tab 키 이동 순서(TabIndex) 강제 설정
+            // ---------------------------------------------------
+            grbMenu.TabIndex = 0;
+            grbSide.TabIndex = 1;
+            grbOrder.TabIndex = 2;
+            btnOrder.TabIndex = 3;
+            btnClear.TabIndex = 4;
+
+            // ---------------------------------------------------
+            // [추가] Enter 키로 메뉴를 선택/해제하기 위한 이벤트 일괄 연결
+            // ---------------------------------------------------
+            rbnHam1.KeyDown += CustomItem_KeyDown;
+            rbnHam2.KeyDown += CustomItem_KeyDown;
+            rbnHam3.KeyDown += CustomItem_KeyDown;
+
+            chkFries.KeyDown += CustomItem_KeyDown;
+            chkCola.KeyDown += CustomItem_KeyDown;
+            chkCheese.KeyDown += CustomItem_KeyDown;
+            chkSauce.KeyDown += CustomItem_KeyDown;
+
+            // 포커스가 라디오 버튼에 가서 자동으로 체크되는 것을 방지합니다.
             this.ActiveControl = lblTotalCost;
         }
 
-        private void groupBox1_Enter(object sender, EventArgs e)
+        // ---------------------------------------------------
+        // [핵심] Enter 키를 눌렀을 때 선택/해제 상태를 반전시키는 커스텀 이벤트
+        // ---------------------------------------------------
+        private void CustomItem_KeyDown(object sender, KeyEventArgs e)
         {
-            // 필요한 경우 구현
+            // 누른 키가 Enter 키라면
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // 윈도우 기본 삑 소리 방지
+
+                if (sender is CheckBox chk)
+                {
+                    chk.Checked = !chk.Checked; // 체크박스 상태 반전
+                }
+                else if (sender is RadioButton rdo)
+                {
+                    rdo.Checked = !rdo.Checked; // 라디오버튼 상태 반전
+                }
+            }
         }
 
         private void btnOrder_Click(object sender, EventArgs e)
@@ -106,6 +142,14 @@ namespace BurgerKiosk
             lstOrder.Items.Clear();
             lblTotalCost.Text = "총 금액: 0원";
             lblError.Visible = false;
+
+            // 초기화 후에도 키보드 조작이 꼬이지 않도록 포커스 제거
+            this.ActiveControl = lblTotalCost;
         }
+
+        // 디자인 창에서 더블클릭으로 생성된 이벤트
+        private void grbMenu_Enter(object sender, EventArgs e) { }
+        private void grbSide_Enter(object sender, EventArgs e) { }
+        private void grbOrder_Enter(object sender, EventArgs e) { }
     }
 }
