@@ -5,16 +5,46 @@ namespace BurgerKiosk
         public Form1()
         {
             InitializeComponent();
+
+            // 화면이 처음 그려질 때 라디오 버튼이 선택되지 않도록 설정
+            // 로드 시점에 강제로 해제하기 위해 이벤트를 연결하거나 아래 설정을 유지합니다.
+            this.Load += Form1_Load;
+
+            lblError.Text = "메뉴를 선택하세요.";
+            lblError.ForeColor = Color.Red;
+            lblError.Visible = false;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            // 실행 직후 어떤 라디오 버튼도 선택되지 않은 상태로 만듭니다.
+            rbnHam1.Checked = false;
+            rbnHam2.Checked = false;
+            rbnHam3.Checked = false;
+
+            // 추가 팁: 포커스가 라디오 버튼에 가서 자동으로 체크되는 것을 방지하기 위해 
+            // 다른 컨트롤(예: 버튼이나 라벨)에 포커스를 줍니다.
+            this.ActiveControl = lblTotalCost;
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
         {
-
+            // 필요한 경우 구현
         }
 
         private void btnOrder_Click(object sender, EventArgs e)
         {
-            // 새로운 주문을 누를 때마다 이전 내역을 지우고 총액을 0으로 초기화
+            // 아무 메뉴도 선택하지 않았을 경우 에러 라벨 표시 및 중단
+            if (!rbnHam1.Checked && !rbnHam2.Checked && !rbnHam3.Checked)
+            {
+                lblError.Visible = true;
+                return;
+            }
+
+            // 정상적으로 메뉴를 선택했다면 에러 메시지 숨기기
+            lblError.Visible = false;
+
+            // 이전 내역 초기화
             lstOrder.Items.Clear();
             int totalCost = 0;
 
@@ -63,20 +93,19 @@ namespace BurgerKiosk
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            // 라디오버튼 체크 해제
+            // 모든 선택 상태 초기화
             rbnHam1.Checked = false;
             rbnHam2.Checked = false;
             rbnHam3.Checked = false;
 
-            // 체크박스 옵션 체크 해제
             chkFries.Checked = false;
             chkCola.Checked = false;
             chkCheese.Checked = false;
             chkSauce.Checked = false;
 
-            // 출력 정보(리스트박스, 라벨) 초기화
             lstOrder.Items.Clear();
             lblTotalCost.Text = "총 금액: 0원";
+            lblError.Visible = false;
         }
     }
 }

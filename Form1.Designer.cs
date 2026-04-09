@@ -46,6 +46,7 @@
             lstOrder = new ListBox();
             btnOrder = new Button();
             btnClear = new Button();
+            lblError = new Label();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)imgHam3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)imgHam2).BeginInit();
@@ -242,7 +243,7 @@
             // btnOrder
             // 
             btnOrder.Font = new Font("한컴 말랑말랑 Bold", 12F, FontStyle.Bold, GraphicsUnit.Point, 129);
-            btnOrder.ForeColor = Color.Coral;
+            btnOrder.ForeColor = Color.CornflowerBlue;
             btnOrder.Location = new Point(497, 348);
             btnOrder.Name = "btnOrder";
             btnOrder.Size = new Size(138, 51);
@@ -254,7 +255,7 @@
             // btnClear
             // 
             btnClear.Font = new Font("한컴 말랑말랑 Bold", 12F, FontStyle.Bold, GraphicsUnit.Point, 129);
-            btnClear.ForeColor = Color.CornflowerBlue;
+            btnClear.ForeColor = Color.Crimson;
             btnClear.Location = new Point(638, 348);
             btnClear.Name = "btnClear";
             btnClear.Size = new Size(138, 51);
@@ -263,11 +264,23 @@
             btnClear.UseVisualStyleBackColor = true;
             btnClear.Click += btnClear_Click;
             // 
+            // lblError
+            // 
+            lblError.AutoSize = true;
+            lblError.Font = new Font("한컴 말랑말랑 Bold", 12F, FontStyle.Bold, GraphicsUnit.Point, 129);
+            lblError.ForeColor = Color.Red;
+            lblError.Location = new Point(497, 406);
+            lblError.Name = "lblError";
+            lblError.Size = new Size(157, 26);
+            lblError.TabIndex = 6;
+            lblError.Text = "메뉴를 선택하세요.";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(lblError);
             Controls.Add(btnClear);
             Controls.Add(btnOrder);
             Controls.Add(groupBox3);
@@ -309,5 +322,6 @@
         private Label lblTotalCost;
         private Button btnOrder;
         private Button btnClear;
+        private Label lblError;
     }
 }
