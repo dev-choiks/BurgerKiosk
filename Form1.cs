@@ -58,7 +58,7 @@ namespace BurgerKiosk
             }
 
             // --- รั ฑÝพื รโทย ---
-            lblTotalCost.Text = "รั ฑÝพื: " + totalCost + "ฟ๘";
+            lblTotalCost.Text = $"รั ฑÝพื: {totalCost:N0}ฟ๘";
         }
 
         private void btnClear_Click(object sender, EventArgs e)
