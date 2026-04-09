@@ -12,7 +12,8 @@ namespace BurgerKiosk
             lblError.ForeColor = Color.Red;
             lblError.Visible = false;
 
-            // 기존의 this.AcceptButton = btnOrder; 코드는 Enter키로 버튼이 눌리는 것을 방지하기 위해 삭제했습니다.
+            // [과제3] Enter 키를 누르면 '주문하기' 버튼이 무조건 실행되도록 설정
+            this.AcceptButton = btnOrder;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -31,41 +32,9 @@ namespace BurgerKiosk
             btnOrder.TabIndex = 3;
             btnClear.TabIndex = 4;
 
-            // ---------------------------------------------------
-            // [추가] Enter 키로 메뉴를 선택/해제하기 위한 이벤트 일괄 연결
-            // ---------------------------------------------------
-            rbnHam1.KeyDown += CustomItem_KeyDown;
-            rbnHam2.KeyDown += CustomItem_KeyDown;
-            rbnHam3.KeyDown += CustomItem_KeyDown;
-
-            chkFries.KeyDown += CustomItem_KeyDown;
-            chkCola.KeyDown += CustomItem_KeyDown;
-            chkCheese.KeyDown += CustomItem_KeyDown;
-            chkSauce.KeyDown += CustomItem_KeyDown;
-
-            // 포커스가 라디오 버튼에 가서 자동으로 체크되는 것을 방지합니다.
+            // 포커스가 라디오 버튼에 가서 자동으로 체크되는 것을 방지하기 위해 
+            // 다른 컨트롤에 포커스를 줍니다.
             this.ActiveControl = lblTotalCost;
-        }
-
-        // ---------------------------------------------------
-        // [핵심] Enter 키를 눌렀을 때 선택/해제 상태를 반전시키는 커스텀 이벤트
-        // ---------------------------------------------------
-        private void CustomItem_KeyDown(object sender, KeyEventArgs e)
-        {
-            // 누른 키가 Enter 키라면
-            if (e.KeyCode == Keys.Enter)
-            {
-                e.SuppressKeyPress = true; // 윈도우 기본 삑 소리 방지
-
-                if (sender is CheckBox chk)
-                {
-                    chk.Checked = !chk.Checked; // 체크박스 상태 반전
-                }
-                else if (sender is RadioButton rdo)
-                {
-                    rdo.Checked = !rdo.Checked; // 라디오버튼 상태 반전
-                }
-            }
         }
 
         private void btnOrder_Click(object sender, EventArgs e)
@@ -77,10 +46,8 @@ namespace BurgerKiosk
                 return;
             }
 
-            // 정상적으로 메뉴를 선택했다면 에러 메시지 숨기기
             lblError.Visible = false;
 
-            // 이전 내역 초기화
             lstOrder.Items.Clear();
             int totalCost = 0;
 
@@ -129,7 +96,6 @@ namespace BurgerKiosk
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            // 모든 선택 상태 초기화
             rbnHam1.Checked = false;
             rbnHam2.Checked = false;
             rbnHam3.Checked = false;
